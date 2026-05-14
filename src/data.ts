@@ -137,7 +137,7 @@ export const FLIGHT_INFO = [
       go: '2026/5/15 (五) 07:55 TPE → 11:15 PUS',
       back: '2026/5/19 (二) 20:00 PUS → 21:20 TPE'
     },
-    passengers: 'Jasper, 威力, 小吉, 鐵人, Kelly, Chris, Eason, Sam'
+    passengers: '魚魚, 九肥, 瑞瑞, Yvonne, 柔柔, 珞珞, Alice, Melse'
   },
   {
     airline: '真航空 (Jin Air)',
@@ -146,7 +146,7 @@ export const FLIGHT_INFO = [
       go: '2026/5/15 (五) 02:40 TPE → 06:15 PUS',
       back: '2026/5/19 (二) 22:00 PUS → 23:40 TPE'
     },
-    passengers: '魚魚, 九肥, 瑞瑞, Yvonne, 柔柔, 珞珞, Alice, Melse'
+    passengers: 'Jasper, 威力, 小吉, 鐵人, Kelly, Chris, Eason, Sam'
   }
 ];
 
