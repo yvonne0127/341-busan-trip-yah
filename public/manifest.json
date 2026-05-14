@@ -1,0 +1,21 @@
+{
+  "name": "釜山漫旅 Busan Wander",
+  "short_name": "釜山漫旅",
+  "description": "釜山五天四夜旅遊隨身手冊",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FFFBF2",
+  "theme_color": "#FF6B35",
+  "icons": [
+    {
+      "src": "https://api.dicebear.com/7.x/avataaars/svg?seed=Busan&backgroundColor=ff6b35",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "https://api.dicebear.com/7.x/avataaars/svg?seed=Busan&backgroundColor=ff6b35",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}

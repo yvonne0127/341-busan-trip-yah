@@ -1,0 +1,8 @@
+{
+  "name": "341釜山之旅",
+  "description": "專為釜山五天四夜設計的旅遊隨身手冊，包含行程規劃、即時翻譯、匯率換算與購物清單。",
+  "requestFramePermissions": [
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

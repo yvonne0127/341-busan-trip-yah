@@ -1,0 +1,123 @@
+{
+  "entities": {
+    "Post": {
+      "title": "Social Post",
+      "description": "A travel log entry with images",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "author": { "type": "string" },
+        "authorId": { "type": "string" },
+        "avatar": { "type": "string" },
+        "images": { "type": "array", "items": { "type": "string" } },
+        "text": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "likes": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["author", "text", "date", "createdAt"]
+    },
+    "Expense": {
+      "title": "Trip Expense",
+      "description": "Shared expenses during the trip",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "amount": { "type": "number" },
+        "category": { "type": "string" },
+        "payer": { "type": "string" },
+        "payerId": { "type": "string" },
+        "splitWith": { "type": "array", "items": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["amount", "category", "payer", "createdAt"]
+    },
+    "Todo": {
+      "title": "Preparation Todo",
+      "description": "Items to prepare before or during the trip",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "task": { "type": "string" },
+        "completed": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["task", "completed"]
+    },
+    "ShoppingItem": {
+      "title": "Shopping Item",
+      "description": "Items to buy during the trip",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "brand": { "type": "string" },
+        "item": { "type": "string" },
+        "purchased": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["item", "purchased"]
+    },
+    "Note": {
+      "title": "Personal Memo",
+      "description": "Private or shared travel notes",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "content": { "type": "string" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["content"]
+    }
+    "Member": {
+      "title": "Trip Member",
+      "description": "User profile information for trip participation",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "avatar": { "type": "string" },
+        "lastSeen": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "avatar"]
+    },
+    "ItineraryConfig": {
+      "title": "Itinerary Data",
+      "description": "Customized trip plan for a user",
+      "type": "object",
+      "properties": {
+        "data": { "type": "object" }
+      },
+      "required": ["data"]
+    }
+  },
+  "firestore": {
+    "posts": {
+      "schema": "Post",
+      "description": "Shared travel log for all members"
+    },
+    "expenses": {
+      "schema": "Expense",
+      "description": "Shared trip finance tracking"
+    },
+    "members": {
+      "schema": "Member",
+      "description": "List of trip participants"
+    },
+    "notes": {
+      "schema": "Note",
+      "description": "Shared team notes"
+    },
+    "users/{userId}/todos": {
+      "schema": "Todo",
+      "description": "Private preparation list for each member"
+    },
+    "users/{userId}/shopping": {
+      "schema": "ShoppingItem",
+      "description": "Private shopping list for each member"
+    },
+    "users/{userId}/config/itinerary": {
+      "schema": "ItineraryConfig",
+      "description": "Personalized itinerary per member"
+    }
+  }
+}

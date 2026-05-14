@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Nunito", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-busan-cream: #FFFBF2;
+  --color-busan-beige: #F5EFE6;
+  --color-busan-orange: #FF6B35;
+  --color-busan-shadow: #E0E5D5;
+  --color-ocean: #7FB5D1;
+  --color-deep-sea: #1B4965;
+  --color-sunset: #FF6B35;
+  --color-sand: #F5EFE6;
+}
+
+@layer base {
+  body {
+    @apply bg-busan-cream text-[#2D2926] font-sans;
+  }
+}
+
+.sticker-shadow {
+  box-shadow: 4px 4px 0px #E0E5D5;
+}
+
+.sticker-shadow-sm {
+  box-shadow: 2px 2px 0px #E0E5D5;
+}
+
+.glass-card {
+  @apply bg-white/70 backdrop-blur-md border border-white;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

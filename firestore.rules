@@ -1,0 +1,106 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() { return request.auth != null; }
+    function isValidId(id) { return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+
+    // --- Validation Blueprints ---
+
+    function isValidPost(data) {
+      return data.keys().hasAll(['author', 'authorId', 'avatar', 'text', 'date', 'likes', 'createdAt']) &&
+             data.author is string && data.author.size() <= 100 &&
+             data.authorId == request.auth.uid &&
+             data.text is string && data.text.size() <= 5000 &&
+             data.likes is number &&
+             data.createdAt == request.time;
+    }
+
+    function isValidExpense(data) {
+      return data.keys().hasAll(['amount', 'category', 'payer', 'createdAt']) &&
+             data.amount is number &&
+             data.category is string &&
+             data.createdAt == request.time;
+    }
+
+    function isValidMember(data) {
+      return data.keys().hasAll(['id', 'name', 'avatar', 'lastSeen']) &&
+             data.id == request.auth.uid &&
+             data.name is string && data.name.size() <= 100 &&
+             data.avatar is string;
+    }
+
+    function isValidTodo(data) {
+      return data.keys().hasAll(['task', 'completed', 'createdAt']) &&
+             data.task is string && data.task.size() <= 500 &&
+             data.completed is bool &&
+             data.createdAt == request.time;
+    }
+
+    function isValidShopping(data) {
+      return data.keys().hasAll(['brand', 'item', 'purchased', 'createdAt']) &&
+             data.brand is string &&
+             data.item is string &&
+             data.purchased is bool &&
+             data.createdAt == request.time;
+    }
+
+    // --- Collection Rules ---
+
+    match /posts/{postId} {
+      allow list: if isSignedIn();
+      allow get: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(postId) && isValidPost(incoming());
+      allow update: if isSignedIn() && existing().authorId == request.auth.uid && 
+                   isValidPost(incoming()) && 
+                   incoming().diff(existing()).affectedKeys().hasOnly(['text', 'images', 'likes', 'updatedAt']);
+      allow delete: if isSignedIn() && existing().authorId == request.auth.uid;
+    }
+
+    match /expenses/{expId} {
+      allow read: if isSignedIn();
+      allow write: if isSignedIn() && isValidId(expId);
+    }
+
+    match /members/{userId} {
+      allow read: if isSignedIn();
+      allow write: if isOwner(userId) && isValidId(userId);
+    }
+
+    match /notes/{noteId} {
+       allow read, write: if isSignedIn() && isValidId(noteId);
+    }
+
+    // --- Private User Space ---
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      
+      match /todos/{todoId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidTodo(incoming());
+        allow update: if isOwner(userId) && isValidTodo(incoming());
+        allow delete: if isOwner(userId);
+      }
+
+      match /shopping/{shopId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidShopping(incoming());
+        allow update: if isOwner(userId) && isValidShopping(incoming());
+        allow delete: if isOwner(userId);
+      }
+
+      match /config/{configId} {
+        allow read, write: if isOwner(userId) && isValidId(configId);
+      }
+    }
+  }
+}
